@@ -368,7 +368,7 @@ function sub_passive(){
 		if [ ! "$AXIOM" = true ]; then
 			[[ $RUNAMASS == true ]] && amass enum -passive -d $domain -config $AMASS_CONFIG -timeout $AMASS_ENUM_TIMEOUT -json .tmp/amass_json.json 2>>"$LOGFILE" &>/dev/null
 			[ -s ".tmp/amass_json.json" ] && cat .tmp/amass_json.json | jq -r '.name' | anew -q .tmp/amass_psub.txt
-			[[ $RUNSUBFINDER == true ]] && subfinder -all -d $domain -silent | anew -q .tmp/amass_psub.txt
+			[[ $RUNSUBFINDER == true ]] && subfinder -all -d $domain -silent -config $SUBFINDER_CONFIG -pc $SUBFINDER_PROVIDER_CONFIG | anew -q .tmp/amass_psub.txt
 		else
 			echo $domain > .tmp/amass_temp_axiom.txt
 			[[ $RUNAMASS == true ]] && axiom-scan .tmp/amass_temp_axiom.txt -m amass -passive -o .tmp/amass_axiom.txt $AXIOM_EXTRA_ARGS 2>>"$LOGFILE" &>/dev/null
